@@ -45,4 +45,5 @@ amplifytools.xcconfig
 **.sample
 #amplify-do-not-edit-end
 
+# AWS credentials
 aws-config.js
