@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { s3Client, PutObjectCommand, apiGatewayEndpoint } from './aws-config';
+import { s3Client, PutObjectCommand, apiGatewayEndpoint, s3BucketName } from './aws-config';
 
 const App = () => {
   const [file, setFile] = useState(null);
@@ -25,7 +25,7 @@ const App = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ bucket: 'imagestorage342', key: acceptedFiles[0].name }),
+          body: JSON.stringify({ bucket: s3BucketName, key: acceptedFiles[0].name }),
         });
         const data = await response.json();
         console.log('Response:', data);
@@ -43,7 +43,7 @@ const App = () => {
     if (file) {
       try {
         const params = {
-          Bucket: 'imagestorage342',
+          Bucket: s3BucketName,
           Key: file.name,
           Body: file,
           ContentType: file.type,
@@ -56,7 +56,7 @@ const App = () => {
         console.log('File uploaded:', file.name);
 
         // Prepare the payload
-        const payload = { bucket: 'imagestorage342', key: file.name };
+        const payload = { bucket: s3BucketName, key: file.name };
         console.log('Payload:', payload);
         // Invoke the Lambda function via API Gateway to get the labels
         try {
